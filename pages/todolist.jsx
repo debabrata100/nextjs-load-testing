@@ -1,10 +1,20 @@
-export async function getServerSideProps(context) {
-  const todos = Array.from({ length: 5 }, (_, i) => i).map((id) => {
-    return {
-      id,
-      name: `Todo - ${id}`,
-    };
+const fetchTodos = async function () {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const todos = Array.from({ length: 5 }, (_, i) => i).map((id) => {
+        return {
+          id,
+          name: `Todo - ${id}`,
+        };
+      });
+      resolve(todos);
+    }, 2000);
   });
+};
+
+export async function getServerSideProps(context) {
+  const todos = await fetchTodos();
+  console.log({ todos });
   return {
     props: {
       todos,
